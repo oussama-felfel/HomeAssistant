@@ -1,0 +1,8 @@
+---
+hello_world:
+  module: hello
+  class: HelloWorld
+#  discoveryUPS:
+#  module: discoveryUPSApp/discoveryUPS
+#  class: DiscoveryUPS
+#  lòg: discoveryUPS

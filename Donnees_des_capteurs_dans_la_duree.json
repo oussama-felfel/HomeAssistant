@@ -1,0 +1,836 @@
+{
+  "annotations": {
+    "list": [
+      {
+        "builtIn": 1,
+        "datasource": "-- Grafana --",
+        "enable": true,
+        "hide": true,
+        "iconColor": "rgba(0, 211, 255, 1)",
+        "name": "Annotations & Alerts",
+        "type": "dashboard"
+      }
+    ]
+  },
+  "description": "",
+  "editable": true,
+  "gnetId": null,
+  "graphTooltip": 0,
+  "id": 3,
+  "iteration": 1622556530052,
+  "links": [],
+  "panels": [
+    {
+      "aliasColors": {},
+      "bars": false,
+      "dashLength": 10,
+      "dashes": false,
+      "datasource": null,
+      "fieldConfig": {
+        "defaults": {
+          "unit": "short"
+        },
+        "overrides": []
+      },
+      "fill": 1,
+      "fillGradient": 0,
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 6,
+        "y": 0
+      },
+      "hiddenSeries": false,
+      "id": 4,
+      "legend": {
+        "avg": false,
+        "current": false,
+        "max": false,
+        "min": false,
+        "show": true,
+        "total": false,
+        "values": false
+      },
+      "lines": true,
+      "linewidth": 1,
+      "nullPointMode": "null",
+      "options": {
+        "alertThreshold": true
+      },
+      "percentage": false,
+      "pluginVersion": "7.5.7",
+      "pointradius": 2,
+      "points": false,
+      "renderer": "flot",
+      "seriesOverrides": [],
+      "spaceLength": 10,
+      "stack": false,
+      "steppedLine": false,
+      "targets": [
+        {
+          "groupBy": [
+            {
+              "params": [
+                "$__interval"
+              ],
+              "type": "time"
+            },
+            {
+              "params": [
+                "null"
+              ],
+              "type": "fill"
+            }
+          ],
+          "orderByTime": "ASC",
+          "policy": "default",
+          "query": "from(bucket: \"sensors_hires\")\r\n  |> range(start: -7d ,stop: now())\r\n  |> filter(fn: (r) => r[\"_measurement\"] == \"${measurement}\")\r\n  |> filter(fn: (r) => r[\"_field\"] == \"value_avg\")\r\n  |> filter(fn: (r) => r[\"_field\"] != \"_avg_count\")\r\n  |> filter(fn: (r) => r[\"building\"] == \"${building}\")\r\n  |> filter(fn: (r) => r[\"kind\"] == \"${kind}\")\r\n  |> filter(fn: (r) => r[\"location\"] == \"${location}\")\r\n  |> filter(fn: (r) => r[\"room\"] == \"${room}\")\r\n  |> filter(fn: (r) => r[\"subID\"] == \"${subId}\")\r\n  |> filter(fn: (r) => r[\"unitID\"] == \"${unitId}\")\r\n  |> map(fn: (r) => ({\r\n              r with _field:\r\n                if r.kind == \"temperature\" then \"Valeur moyenne (ºC)\"\r\n                else if r.kind == \"airquality\" then \"Valeur moyenne (ohm)\"\r\n                else if r.kind == \"co2\" then \"Valeur moyenne (ppm)\"\r\n                else if r.kind == \"energy\" then \"Valeur moyenne (m3/hr, kW, kWh, hot_degresC, cold_degresC, diff_degresC)\"\r\n                else if r.kind == \"humidity\" then \"Valeur moyenne (%r.H.)\"\r\n                else if r.kind == \"luminosity\" then \"Valeur moyenne (lux)\"\r\n                else if r.kind == \"pressure\" then \"Valeur moyenne (mbar)\"\r\n                else if r.kind == \"rain\" then \"Valeur moyenne (stormRain_cm, dayRain_cm, rain24_cm, hourRain_cm, rainRate_cm_per_hour, monthRain_cm)\"\r\n                else if r.kind == \"wind\" then \"Valeur moyenne (windDir, windSpeed_kph, windGust_kph, windGustDir)\"\r\n                else if r.kind == \"digital\" then \"Valeur moyenne (binary)\"\r\n                else if r.kind == \"noice\" then \"Valeur moyenne (pulses)\"\r\n                else \"Valeur moyenne\"\r\n                }))",
+          "refId": "value_avg",
+          "resultFormat": "time_series",
+          "select": [
+            [
+              {
+                "params": [
+                  "value"
+                ],
+                "type": "field"
+              },
+              {
+                "params": [],
+                "type": "mean"
+              }
+            ]
+          ],
+          "tags": []
+        },
+        {
+          "groupBy": [
+            {
+              "params": [
+                "$__interval"
+              ],
+              "type": "time"
+            },
+            {
+              "params": [
+                "null"
+              ],
+              "type": "fill"
+            }
+          ],
+          "hide": false,
+          "orderByTime": "ASC",
+          "policy": "default",
+          "query": "from(bucket: \"sensors_hires\")\r\n  |> range(start: -7d ,stop: now())\r\n  |> filter(fn: (r) => r[\"_measurement\"] == \"${measurement}\")\r\n  |> filter(fn: (r) => r[\"_field\"] == \"value_min\")\r\n  |> filter(fn: (r) => r[\"_field\"] != \"_avg_count\")\r\n  |> filter(fn: (r) => r[\"building\"] == \"${building}\")\r\n  |> filter(fn: (r) => r[\"kind\"] == \"${kind}\")\r\n  |> filter(fn: (r) => r[\"location\"] == \"${location}\")\r\n  |> filter(fn: (r) => r[\"room\"] == \"${room}\")\r\n  |> filter(fn: (r) => r[\"subID\"] == \"${subId}\")\r\n  |> filter(fn: (r) => r[\"unitID\"] == \"${unitId}\")\r\n  |> map(fn: (r) => ({\r\n              r with _field:\r\n                if r.kind == \"temperature\" then \"Valeur minimale (ºC)\"\r\n                else if r.kind == \"airquality\" then \"Valeur minimale (ohm)\"\r\n                else if r.kind == \"co2\" then \"Valeur minimale (ppm)\"\r\n                else if r.kind == \"energy\" then \"Valeur minimale (m3/hr, kW, kWh, hot_degresC, cold_degresC, diff_degresC)\"\r\n                else if r.kind == \"humidity\" then \"Valeur minimale (%r.H.)\"\r\n                else if r.kind == \"luminosity\" then \"Valeur minimale (lux)\"\r\n                else if r.kind == \"pressure\" then \"Valeur minimale (mbar)\"\r\n                else if r.kind == \"rain\" then \"Valeur minimale (stormRain_cm, dayRain_cm, rain24_cm, hourRain_cm, rainRate_cm_per_hour, monthRain_cm)\"\r\n                else if r.kind == \"wind\" then \"Valeur minimale (windDir, windSpeed_kph, windGust_kph, windGustDir)\"\r\n                else if r.kind == \"digital\" then \"Valeur minimale (binary)\"\r\n                else if r.kind == \"noice\" then \"Valeur minimale (pulses)\"\r\n                else \"Valeur minimale\"\r\n                }))",
+          "refId": "value_min",
+          "resultFormat": "time_series",
+          "select": [
+            [
+              {
+                "params": [
+                  "value"
+                ],
+                "type": "field"
+              },
+              {
+                "params": [],
+                "type": "mean"
+              }
+            ]
+          ],
+          "tags": []
+        },
+        {
+          "groupBy": [
+            {
+              "params": [
+                "$__interval"
+              ],
+              "type": "time"
+            },
+            {
+              "params": [
+                "null"
+              ],
+              "type": "fill"
+            }
+          ],
+          "hide": false,
+          "orderByTime": "ASC",
+          "policy": "default",
+          "query": "from(bucket: \"sensors_hires\")\r\n  |> range(start: -7d ,stop: now())\r\n  |> filter(fn: (r) => r[\"_measurement\"] == \"${measurement}\")\r\n  |> filter(fn: (r) => r[\"_field\"] == \"value_max\")\r\n  |> filter(fn: (r) => r[\"_field\"] != \"_avg_count\")\r\n  |> filter(fn: (r) => r[\"building\"] == \"${building}\")\r\n  |> filter(fn: (r) => r[\"kind\"] == \"${kind}\")\r\n  |> filter(fn: (r) => r[\"location\"] == \"${location}\")\r\n  |> filter(fn: (r) => r[\"room\"] == \"${room}\")\r\n  |> filter(fn: (r) => r[\"subID\"] == \"${subId}\")\r\n  |> filter(fn: (r) => r[\"unitID\"] == \"${unitId}\")\r\n  |> map(fn: (r) => ({\r\n              r with _field:\r\n                if r.kind == \"temperature\" then \"Valeur maximale (ºC)\"\r\n                else if r.kind == \"airquality\" then \"Valeur maximale (ohm)\"\r\n                else if r.kind == \"co2\" then \"Valeur maximale (ppm)\"\r\n                else if r.kind == \"energy\" then \"Valeur maximale (m3/hr, kW, kWh, hot_degresC, cold_degresC, diff_degresC)\"\r\n                else if r.kind == \"humidity\" then \"Valeur maximale (%r.H.)\"\r\n                else if r.kind == \"luminosity\" then \"Valeur maximale (lux)\"\r\n                else if r.kind == \"pressure\" then \"Valeur maximale (mbar)\"\r\n                else if r.kind == \"rain\" then \"Valeur maximale (stormRain_cm, dayRain_cm, rain24_cm, hourRain_cm, rainRate_cm_per_hour, monthRain_cm)\"\r\n                else if r.kind == \"wind\" then \"Valeur maximale (windDir, windSpeed_kph, windGust_kph, windGustDir)\"\r\n                else if r.kind == \"digital\" then \"Valeur maximale (binary)\"\r\n                else if r.kind == \"noice\" then \"Valeur maximale (pulses)\"\r\n                else \"Valeur maximale\"\r\n                }))",
+          "refId": "value_max",
+          "resultFormat": "time_series",
+          "select": [
+            [
+              {
+                "params": [
+                  "value"
+                ],
+                "type": "field"
+              },
+              {
+                "params": [],
+                "type": "mean"
+              }
+            ]
+          ],
+          "tags": []
+        }
+      ],
+      "thresholds": [],
+      "timeFrom": "now-7d",
+      "timeRegions": [],
+      "timeShift": null,
+      "title": "Last 7 Days",
+      "tooltip": {
+        "shared": true,
+        "sort": 0,
+        "value_type": "individual"
+      },
+      "type": "graph",
+      "xaxis": {
+        "buckets": null,
+        "mode": "time",
+        "name": null,
+        "show": true,
+        "values": []
+      },
+      "yaxes": [
+        {
+          "$$hashKey": "object:40",
+          "format": "short",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": null,
+          "show": true
+        },
+        {
+          "$$hashKey": "object:41",
+          "format": "short",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": null,
+          "show": true
+        }
+      ],
+      "yaxis": {
+        "align": false,
+        "alignLevel": null
+      }
+    },
+    {
+      "aliasColors": {},
+      "bars": false,
+      "dashLength": 10,
+      "dashes": false,
+      "datasource": null,
+      "fieldConfig": {
+        "defaults": {},
+        "overrides": []
+      },
+      "fill": 1,
+      "fillGradient": 0,
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 0,
+        "y": 8
+      },
+      "hiddenSeries": false,
+      "id": 6,
+      "legend": {
+        "avg": false,
+        "current": false,
+        "max": false,
+        "min": false,
+        "show": true,
+        "total": false,
+        "values": false
+      },
+      "lines": true,
+      "linewidth": 1,
+      "maxDataPoints": null,
+      "nullPointMode": "null",
+      "options": {
+        "alertThreshold": true
+      },
+      "percentage": false,
+      "pluginVersion": "7.5.7",
+      "pointradius": 2,
+      "points": false,
+      "renderer": "flot",
+      "seriesOverrides": [],
+      "spaceLength": 10,
+      "stack": false,
+      "steppedLine": false,
+      "targets": [
+        {
+          "groupBy": [
+            {
+              "params": [
+                "$__interval"
+              ],
+              "type": "time"
+            },
+            {
+              "params": [
+                "null"
+              ],
+              "type": "fill"
+            }
+          ],
+          "orderByTime": "ASC",
+          "policy": "default",
+          "query": "from(bucket: \"sensors_lowres\")\r\n  |> range(start: -1mo ,stop: now())\r\n  |> filter(fn: (r) => r[\"_measurement\"] == \"${measurement}\")\r\n  |> filter(fn: (r) => r[\"_field\"] == \"value_avg\")\r\n  |> filter(fn: (r) => r[\"building\"] == \"${building}\")\r\n  |> filter(fn: (r) => r[\"kind\"] == \"${kind}\")\r\n  |> filter(fn: (r) => r[\"location\"] == \"${location}\")\r\n  |> filter(fn: (r) => r[\"room\"] == \"${room}\")\r\n  |> filter(fn: (r) => r[\"subID\"] == \"${subId}\")\r\n  |> filter(fn: (r) => r[\"unitID\"] == \"${unitId}\")\r\n  |> map(fn: (r) => ({\r\n              r with _field:\r\n                if r.kind == \"temperature\" then \"Valeur moyenne (ºC)\"\r\n                else if r.kind == \"airquality\" then \"Valeur moyenne (ohm)\"\r\n                else if r.kind == \"co2\" then \"Valeur moyenne (ppm)\"\r\n                else if r.kind == \"energy\" then \"Valeur moyenne (m3/hr, kW, kWh, hot_degresC, cold_degresC, diff_degresC)\"\r\n                else if r.kind == \"humidity\" then \"Valeur moyenne (%r.H.)\"\r\n                else if r.kind == \"luminosity\" then \"Valeur moyenne (lux)\"\r\n                else if r.kind == \"pressure\" then \"Valeur moyenne (mbar)\"\r\n                else if r.kind == \"rain\" then \"Valeur moyenne (stormRain_cm, dayRain_cm, rain24_cm, hourRain_cm, rainRate_cm_per_hour, monthRain_cm)\"\r\n                else if r.kind == \"wind\" then \"Valeur moyenne (windDir, windSpeed_kph, windGust_kph, windGustDir)\"\r\n                else if r.kind == \"digital\" then \"Valeur moyenne (binary)\"\r\n                else if r.kind == \"noice\" then \"Valeur moyenne (pulses)\"\r\n                else \"Valeur moyenne\"\r\n                }))",
+          "queryType": "randomWalk",
+          "refId": "value_avg",
+          "resultFormat": "time_series",
+          "select": [
+            [
+              {
+                "params": [
+                  "value"
+                ],
+                "type": "field"
+              },
+              {
+                "params": [],
+                "type": "mean"
+              }
+            ]
+          ],
+          "tags": []
+        },
+        {
+          "groupBy": [
+            {
+              "params": [
+                "$__interval"
+              ],
+              "type": "time"
+            },
+            {
+              "params": [
+                "null"
+              ],
+              "type": "fill"
+            }
+          ],
+          "hide": false,
+          "orderByTime": "ASC",
+          "policy": "default",
+          "query": "from(bucket: \"sensors_lowres\")\r\n  |> range(start: -1mo ,stop: now())\r\n  |> filter(fn: (r) => r[\"_measurement\"] == \"${measurement}\")\r\n  |> filter(fn: (r) => r[\"_field\"] == \"value_min\")\r\n  |> filter(fn: (r) => r[\"building\"] == \"${building}\")\r\n  |> filter(fn: (r) => r[\"kind\"] == \"${kind}\")\r\n  |> filter(fn: (r) => r[\"location\"] == \"${location}\")\r\n  |> filter(fn: (r) => r[\"room\"] == \"${room}\")\r\n  |> filter(fn: (r) => r[\"subID\"] == \"${subId}\")\r\n  |> filter(fn: (r) => r[\"unitID\"] == \"${unitId}\")\r\n  |> map(fn: (r) => ({\r\n              r with _field:\r\n                if r.kind == \"temperature\" then \"Valeur minimale (ºC)\"\r\n                else if r.kind == \"airquality\" then \"Valeur minimale (ohm)\"\r\n                else if r.kind == \"co2\" then \"Valeur minimale (ppm)\"\r\n                else if r.kind == \"energy\" then \"Valeur minimale (m3/hr, kW, kWh, hot_degresC, cold_degresC, diff_degresC)\"\r\n                else if r.kind == \"humidity\" then \"Valeur minimale (%r.H.)\"\r\n                else if r.kind == \"luminosity\" then \"Valeur minimale (lux)\"\r\n                else if r.kind == \"pressure\" then \"Valeur minimale (mbar)\"\r\n                else if r.kind == \"rain\" then \"Valeur minimale (stormRain_cm, dayRain_cm, rain24_cm, hourRain_cm, rainRate_cm_per_hour, monthRain_cm)\"\r\n                else if r.kind == \"wind\" then \"Valeur minimale (windDir, windSpeed_kph, windGust_kph, windGustDir)\"\r\n                else if r.kind == \"digital\" then \"Valeur minimale (binary)\"\r\n                else if r.kind == \"noice\" then \"Valeur minimale (pulses)\"\r\n                else \"Valeur minimale\"\r\n                }))",
+          "refId": "value_min",
+          "resultFormat": "time_series",
+          "select": [
+            [
+              {
+                "params": [
+                  "value"
+                ],
+                "type": "field"
+              },
+              {
+                "params": [],
+                "type": "mean"
+              }
+            ]
+          ],
+          "tags": []
+        },
+        {
+          "groupBy": [
+            {
+              "params": [
+                "$__interval"
+              ],
+              "type": "time"
+            },
+            {
+              "params": [
+                "null"
+              ],
+              "type": "fill"
+            }
+          ],
+          "hide": false,
+          "orderByTime": "ASC",
+          "policy": "default",
+          "query": "from(bucket: \"sensors_lowres\")\r\n  |> range(start: -1mo ,stop: now())\r\n  |> filter(fn: (r) => r[\"_measurement\"] == \"${measurement}\")\r\n  |> filter(fn: (r) => r[\"_field\"] == \"value_max\")\r\n  |> filter(fn: (r) => r[\"building\"] == \"${building}\")\r\n  |> filter(fn: (r) => r[\"kind\"] == \"${kind}\")\r\n  |> filter(fn: (r) => r[\"location\"] == \"${location}\")\r\n  |> filter(fn: (r) => r[\"room\"] == \"${room}\")\r\n  |> filter(fn: (r) => r[\"subID\"] == \"${subId}\")\r\n  |> filter(fn: (r) => r[\"unitID\"] == \"${unitId}\")\r\n  |> map(fn: (r) => ({\r\n              r with _field:\r\n                if r.kind == \"temperature\" then \"Valeur maximale (ºC)\"\r\n                else if r.kind == \"airquality\" then \"Valeur maximale (ohm)\"\r\n                else if r.kind == \"co2\" then \"Valeur maximale (ppm)\"\r\n                else if r.kind == \"energy\" then \"Valeur maximale (m3/hr, kW, kWh, hot_degresC, cold_degresC, diff_degresC)\"\r\n                else if r.kind == \"humidity\" then \"Valeur maximale (%r.H.)\"\r\n                else if r.kind == \"luminosity\" then \"Valeur maximale (lux)\"\r\n                else if r.kind == \"pressure\" then \"Valeur maximale (mbar)\"\r\n                else if r.kind == \"rain\" then \"Valeur maximale (stormRain_cm, dayRain_cm, rain24_cm, hourRain_cm, rainRate_cm_per_hour, monthRain_cm)\"\r\n                else if r.kind == \"wind\" then \"Valeur maximale (windDir, windSpeed_kph, windGust_kph, windGustDir)\"\r\n                else if r.kind == \"digital\" then \"Valeur maximale (binary)\"\r\n                else if r.kind == \"noice\" then \"Valeur maximale (pulses)\"\r\n                else \"Valeur maximale\"\r\n                }))",
+          "refId": "value_max",
+          "resultFormat": "time_series",
+          "select": [
+            [
+              {
+                "params": [
+                  "value"
+                ],
+                "type": "field"
+              },
+              {
+                "params": [],
+                "type": "mean"
+              }
+            ]
+          ],
+          "tags": []
+        }
+      ],
+      "thresholds": [],
+      "timeFrom": "now-1M",
+      "timeRegions": [],
+      "timeShift": null,
+      "title": "Last Month",
+      "tooltip": {
+        "shared": true,
+        "sort": 0,
+        "value_type": "individual"
+      },
+      "type": "graph",
+      "xaxis": {
+        "buckets": null,
+        "mode": "time",
+        "name": null,
+        "show": true,
+        "values": []
+      },
+      "yaxes": [
+        {
+          "format": "short",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": null,
+          "show": true
+        },
+        {
+          "format": "short",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": null,
+          "show": true
+        }
+      ],
+      "yaxis": {
+        "align": false,
+        "alignLevel": null
+      }
+    },
+    {
+      "aliasColors": {},
+      "bars": false,
+      "dashLength": 10,
+      "dashes": false,
+      "datasource": null,
+      "fieldConfig": {
+        "defaults": {
+          "unit": "short"
+        },
+        "overrides": []
+      },
+      "fill": 1,
+      "fillGradient": 0,
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 12,
+        "y": 8
+      },
+      "hiddenSeries": false,
+      "id": 8,
+      "legend": {
+        "avg": false,
+        "current": false,
+        "max": false,
+        "min": false,
+        "show": true,
+        "total": false,
+        "values": false
+      },
+      "lines": true,
+      "linewidth": 1,
+      "nullPointMode": "null",
+      "options": {
+        "alertThreshold": true
+      },
+      "percentage": false,
+      "pluginVersion": "7.5.7",
+      "pointradius": 2,
+      "points": false,
+      "renderer": "flot",
+      "seriesOverrides": [],
+      "spaceLength": 10,
+      "stack": false,
+      "steppedLine": false,
+      "targets": [
+        {
+          "groupBy": [
+            {
+              "params": [
+                "$__interval"
+              ],
+              "type": "time"
+            },
+            {
+              "params": [
+                "null"
+              ],
+              "type": "fill"
+            }
+          ],
+          "hide": false,
+          "orderByTime": "ASC",
+          "policy": "default",
+          "query": "from(bucket: \"sensors_lowres\")\r\n  |> range(start: -1y ,stop: now())\r\n  |> filter(fn: (r) => r[\"_measurement\"] == \"${measurement}\")\r\n  |> filter(fn: (r) => r[\"_field\"] == \"value_avg\")\r\n  |> filter(fn: (r) => r[\"building\"] == \"${building}\")\r\n  |> filter(fn: (r) => r[\"kind\"] == \"${kind}\")\r\n  |> filter(fn: (r) => r[\"location\"] == \"${location}\")\r\n  |> filter(fn: (r) => r[\"room\"] == \"${room}\")\r\n  |> filter(fn: (r) => r[\"subID\"] == \"${subId}\")\r\n  |> filter(fn: (r) => r[\"unitID\"] == \"${unitId}\")\r\n  |> map(fn: (r) => ({\r\n              r with _field:\r\n                if r.kind == \"temperature\" then \"Valeur moyenne (ºC)\"\r\n                else if r.kind == \"airquality\" then \"Valeur moyenne (ohm)\"\r\n                else if r.kind == \"co2\" then \"Valeur moyenne (ppm)\"\r\n                else if r.kind == \"energy\" then \"Valeur moyenne (m3/hr, kW, kWh, hot_degresC, cold_degresC, diff_degresC)\"\r\n                else if r.kind == \"humidity\" then \"Valeur moyenne (%r.H.)\"\r\n                else if r.kind == \"luminosity\" then \"Valeur moyenne (lux)\"\r\n                else if r.kind == \"pressure\" then \"Valeur moyenne (mbar)\"\r\n                else if r.kind == \"rain\" then \"Valeur moyenne (stormRain_cm, dayRain_cm, rain24_cm, hourRain_cm, rainRate_cm_per_hour, monthRain_cm)\"\r\n                else if r.kind == \"wind\" then \"Valeur moyenne (windDir, windSpeed_kph, windGust_kph, windGustDir)\"\r\n                else if r.kind == \"digital\" then \"Valeur moyenne (binary)\"\r\n                else if r.kind == \"noice\" then \"Valeur moyenne (pulses)\"\r\n                else \"Valeur moyenne\"\r\n                }))",
+          "refId": "value_avg",
+          "resultFormat": "time_series",
+          "select": [
+            [
+              {
+                "params": [
+                  "value"
+                ],
+                "type": "field"
+              },
+              {
+                "params": [],
+                "type": "mean"
+              }
+            ]
+          ],
+          "tags": []
+        },
+        {
+          "groupBy": [
+            {
+              "params": [
+                "$__interval"
+              ],
+              "type": "time"
+            },
+            {
+              "params": [
+                "null"
+              ],
+              "type": "fill"
+            }
+          ],
+          "orderByTime": "ASC",
+          "policy": "default",
+          "query": "from(bucket: \"sensors_lowres\")\r\n  |> range(start: -1y ,stop: now())\r\n  |> filter(fn: (r) => r[\"_measurement\"] == \"${measurement}\")\r\n  |> filter(fn: (r) => r[\"_field\"] == \"value_min\")\r\n  |> filter(fn: (r) => r[\"building\"] == \"${building}\")\r\n  |> filter(fn: (r) => r[\"kind\"] == \"${kind}\")\r\n  |> filter(fn: (r) => r[\"location\"] == \"${location}\")\r\n  |> filter(fn: (r) => r[\"room\"] == \"${room}\")\r\n  |> filter(fn: (r) => r[\"subID\"] == \"${subId}\")\r\n  |> filter(fn: (r) => r[\"unitID\"] == \"${unitId}\")\r\n  |> map(fn: (r) => ({\r\n              r with _field:\r\n                if r.kind == \"temperature\" then \"Valeur minimale (ºC)\"\r\n                else if r.kind == \"airquality\" then \"Valeur minimale (ohm)\"\r\n                else if r.kind == \"co2\" then \"Valeur minimale (ppm)\"\r\n                else if r.kind == \"energy\" then \"Valeur minimale (m3/hr, kW, kWh, hot_degresC, cold_degresC, diff_degresC)\"\r\n                else if r.kind == \"humidity\" then \"Valeur minimale (%r.H.)\"\r\n                else if r.kind == \"luminosity\" then \"Valeur minimale (lux)\"\r\n                else if r.kind == \"pressure\" then \"Valeur minimale (mbar)\"\r\n                else if r.kind == \"rain\" then \"Valeur minimale (stormRain_cm, dayRain_cm, rain24_cm, hourRain_cm, rainRate_cm_per_hour, monthRain_cm)\"\r\n                else if r.kind == \"wind\" then \"Valeur minimale (windDir, windSpeed_kph, windGust_kph, windGustDir)\"\r\n                else if r.kind == \"digital\" then \"Valeur minimale (binary)\"\r\n                else if r.kind == \"noice\" then \"Valeur minimale (pulses)\"\r\n                else \"Valeur minimale\"\r\n                }))",
+          "refId": "value_min",
+          "resultFormat": "time_series",
+          "select": [
+            [
+              {
+                "params": [
+                  "value"
+                ],
+                "type": "field"
+              },
+              {
+                "params": [],
+                "type": "mean"
+              }
+            ]
+          ],
+          "tags": []
+        },
+        {
+          "groupBy": [
+            {
+              "params": [
+                "$__interval"
+              ],
+              "type": "time"
+            },
+            {
+              "params": [
+                "null"
+              ],
+              "type": "fill"
+            }
+          ],
+          "hide": false,
+          "orderByTime": "ASC",
+          "policy": "default",
+          "query": "from(bucket: \"sensors_lowres\")\r\n  |> range(start: -1y ,stop: now())\r\n  |> filter(fn: (r) => r[\"_measurement\"] == \"${measurement}\")\r\n  |> filter(fn: (r) => r[\"_field\"] == \"value_max\")\r\n  |> filter(fn: (r) => r[\"building\"] == \"${building}\")\r\n  |> filter(fn: (r) => r[\"kind\"] == \"${kind}\")\r\n  |> filter(fn: (r) => r[\"location\"] == \"${location}\")\r\n  |> filter(fn: (r) => r[\"room\"] == \"${room}\")\r\n  |> filter(fn: (r) => r[\"subID\"] == \"${subId}\")\r\n  |> filter(fn: (r) => r[\"unitID\"] == \"${unitId}\")\r\n  |> map(fn: (r) => ({\r\n              r with _field:\r\n                if r.kind == \"temperature\" then \"Valeur maximale (ºC)\"\r\n                else if r.kind == \"airquality\" then \"Valeur maximale (ohm)\"\r\n                else if r.kind == \"co2\" then \"Valeur maximale (ppm)\"\r\n                else if r.kind == \"energy\" then \"Valeur maximale (m3/hr, kW, kWh, hot_degresC, cold_degresC, diff_degresC)\"\r\n                else if r.kind == \"humidity\" then \"Valeur maximale (%r.H.)\"\r\n                else if r.kind == \"luminosity\" then \"Valeur maximale (lux)\"\r\n                else if r.kind == \"pressure\" then \"Valeur maximale (mbar)\"\r\n                else if r.kind == \"rain\" then \"Valeur maximale (stormRain_cm, dayRain_cm, rain24_cm, hourRain_cm, rainRate_cm_per_hour, monthRain_cm)\"\r\n                else if r.kind == \"wind\" then \"Valeur maximale (windDir, windSpeed_kph, windGust_kph, windGustDir)\"\r\n                else if r.kind == \"digital\" then \"Valeur maximale (binary)\"\r\n                else if r.kind == \"noice\" then \"Valeur maximale (pulses)\"\r\n                else \"Valeur maximale\"\r\n                }))",
+          "refId": "value_max",
+          "resultFormat": "time_series",
+          "select": [
+            [
+              {
+                "params": [
+                  "value"
+                ],
+                "type": "field"
+              },
+              {
+                "params": [],
+                "type": "mean"
+              }
+            ]
+          ],
+          "tags": []
+        }
+      ],
+      "thresholds": [],
+      "timeFrom": "now-1y",
+      "timeRegions": [],
+      "timeShift": null,
+      "title": "Last Year",
+      "tooltip": {
+        "shared": true,
+        "sort": 0,
+        "value_type": "individual"
+      },
+      "type": "graph",
+      "xaxis": {
+        "buckets": null,
+        "mode": "time",
+        "name": null,
+        "show": true,
+        "values": []
+      },
+      "yaxes": [
+        {
+          "format": "short",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": null,
+          "show": true
+        },
+        {
+          "format": "short",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": null,
+          "show": true
+        }
+      ],
+      "yaxis": {
+        "align": false,
+        "alignLevel": null
+      }
+    }
+  ],
+  "refresh": false,
+  "schemaVersion": 27,
+  "style": "dark",
+  "tags": [],
+  "templating": {
+    "list": [
+      {
+        "allValue": null,
+        "current": {
+          "selected": false,
+          "text": "data",
+          "value": "data"
+        },
+        "datasource": "InfluxDB",
+        "definition": "import \"influxdata/influxdb/v1\"\r\nv1.tagValues(\r\n    bucket: \"sensors_hires\",\r\n    tag: \"_measurement\",\r\n    predicate: (r) => true,\r\n    start: -1d\r\n)",
+        "description": null,
+        "error": null,
+        "hide": 0,
+        "includeAll": false,
+        "label": "measurement",
+        "multi": false,
+        "name": "measurement",
+        "options": [],
+        "query": "import \"influxdata/influxdb/v1\"\r\nv1.tagValues(\r\n    bucket: \"sensors_hires\",\r\n    tag: \"_measurement\",\r\n    predicate: (r) => true,\r\n    start: -1d\r\n)",
+        "refresh": 1,
+        "regex": "",
+        "skipUrlSync": false,
+        "sort": 0,
+        "tagValuesQuery": "",
+        "tags": [],
+        "tagsQuery": "",
+        "type": "query",
+        "useTags": false
+      },
+      {
+        "allValue": null,
+        "current": {
+          "selected": false,
+          "text": "u4",
+          "value": "u4"
+        },
+        "datasource": "InfluxDB",
+        "definition": "import \"influxdata/influxdb/v1\"\r\nv1.tagValues(\r\n    bucket: \"sensors_hires\",\r\n    tag: \"building\",\r\n     predicate: (r) => r._measurement == \"$measurement\",\r\n    start: -1d\r\n)",
+        "description": null,
+        "error": null,
+        "hide": 0,
+        "includeAll": false,
+        "label": "Bâtiment",
+        "multi": false,
+        "name": "building",
+        "options": [],
+        "query": "import \"influxdata/influxdb/v1\"\r\nv1.tagValues(\r\n    bucket: \"sensors_hires\",\r\n    tag: \"building\",\r\n     predicate: (r) => r._measurement == \"$measurement\",\r\n    start: -1d\r\n)",
+        "refresh": 1,
+        "regex": "",
+        "skipUrlSync": false,
+        "sort": 0,
+        "tagValuesQuery": "",
+        "tags": [],
+        "tagsQuery": "",
+        "type": "query",
+        "useTags": false
+      },
+      {
+        "allValue": null,
+        "current": {
+          "selected": false,
+          "text": "temperature",
+          "value": "temperature"
+        },
+        "datasource": "InfluxDB",
+        "definition": "import \"influxdata/influxdb/v1\"\r\nv1.tagValues(\r\n    bucket: \"sensors_hires\",\r\n    tag: \"kind\",\r\n     predicate: (r) => r._measurement == \"$measurement\" and r.building == \"$building\",\r\n    start: -1d\r\n)",
+        "description": null,
+        "error": null,
+        "hide": 0,
+        "includeAll": false,
+        "label": "Type",
+        "multi": false,
+        "name": "kind",
+        "options": [],
+        "query": "import \"influxdata/influxdb/v1\"\r\nv1.tagValues(\r\n    bucket: \"sensors_hires\",\r\n    tag: \"kind\",\r\n     predicate: (r) => r._measurement == \"$measurement\" and r.building == \"$building\",\r\n    start: -1d\r\n)",
+        "refresh": 1,
+        "regex": "",
+        "skipUrlSync": false,
+        "sort": 0,
+        "tagValuesQuery": "",
+        "tags": [],
+        "tagsQuery": "",
+        "type": "query",
+        "useTags": false
+      },
+      {
+        "allValue": null,
+        "current": {
+          "selected": false,
+          "text": "ut3",
+          "value": "ut3"
+        },
+        "datasource": "InfluxDB",
+        "definition": "import \"influxdata/influxdb/v1\"\r\nv1.tagValues(\r\n    bucket: \"sensors_hires\",\r\n    tag: \"location\",\r\n     predicate: (r) => r._measurement == \"$measurement\"\r\n     and r.building == \"$building\" and r.kind == \"$kind\" ,\r\n    start: -1d\r\n)",
+        "description": null,
+        "error": null,
+        "hide": 0,
+        "includeAll": false,
+        "label": "Emplacement",
+        "multi": false,
+        "name": "location",
+        "options": [],
+        "query": "import \"influxdata/influxdb/v1\"\r\nv1.tagValues(\r\n    bucket: \"sensors_hires\",\r\n    tag: \"location\",\r\n     predicate: (r) => r._measurement == \"$measurement\"\r\n     and r.building == \"$building\" and r.kind == \"$kind\" ,\r\n    start: -1d\r\n)",
+        "refresh": 1,
+        "regex": "",
+        "skipUrlSync": false,
+        "sort": 0,
+        "tagValuesQuery": "",
+        "tags": [],
+        "tagsQuery": "",
+        "type": "query",
+        "useTags": false
+      },
+      {
+        "allValue": null,
+        "current": {
+          "selected": false,
+          "text": "300",
+          "value": "300"
+        },
+        "datasource": "InfluxDB",
+        "definition": "import \"influxdata/influxdb/v1\"\r\nv1.tagValues(\r\n    bucket: \"sensors_hires\",\r\n    tag: \"room\",\r\n     predicate: (r) => r._measurement == \"$measurement\"\r\n     and r.building == \"$building\" and r.kind == \"$kind\" and r.location == \"$location\" ,\r\n    start: -1d\r\n)",
+        "description": null,
+        "error": null,
+        "hide": 0,
+        "includeAll": false,
+        "label": "Salle",
+        "multi": false,
+        "name": "room",
+        "options": [],
+        "query": "import \"influxdata/influxdb/v1\"\r\nv1.tagValues(\r\n    bucket: \"sensors_hires\",\r\n    tag: \"room\",\r\n     predicate: (r) => r._measurement == \"$measurement\"\r\n     and r.building == \"$building\" and r.kind == \"$kind\" and r.location == \"$location\" ,\r\n    start: -1d\r\n)",
+        "refresh": 1,
+        "regex": "",
+        "skipUrlSync": false,
+        "sort": 0,
+        "tagValuesQuery": "",
+        "tags": [],
+        "tagsQuery": "",
+        "type": "query",
+        "useTags": false
+      },
+      {
+        "allValue": null,
+        "current": {
+          "selected": false,
+          "text": "ilot1",
+          "value": "ilot1"
+        },
+        "datasource": "InfluxDB",
+        "definition": "import \"influxdata/influxdb/v1\"\r\nv1.tagValues(\r\n    bucket: \"sensors_hires\",\r\n    tag: \"subID\",\r\n     predicate: (r) => r._measurement == \"$measurement\"\r\n     and r.building == \"$building\" and r.kind == \"$kind\" and r.location == \"$location\" and r.room == \"$room\" ,\r\n    start: -1d\r\n)",
+        "description": null,
+        "error": null,
+        "hide": 0,
+        "includeAll": false,
+        "label": null,
+        "multi": false,
+        "name": "subId",
+        "options": [],
+        "query": "import \"influxdata/influxdb/v1\"\r\nv1.tagValues(\r\n    bucket: \"sensors_hires\",\r\n    tag: \"subID\",\r\n     predicate: (r) => r._measurement == \"$measurement\"\r\n     and r.building == \"$building\" and r.kind == \"$kind\" and r.location == \"$location\" and r.room == \"$room\" ,\r\n    start: -1d\r\n)",
+        "refresh": 1,
+        "regex": "",
+        "skipUrlSync": false,
+        "sort": 0,
+        "tagValuesQuery": "",
+        "tags": [],
+        "tagsQuery": "",
+        "type": "query",
+        "useTags": false
+      },
+      {
+        "allValue": null,
+        "current": {
+          "selected": false,
+          "text": "inside",
+          "value": "inside"
+        },
+        "datasource": "InfluxDB",
+        "definition": "import \"influxdata/influxdb/v1\"\r\nv1.tagValues(\r\n    bucket: \"sensors_hires\",\r\n    tag: \"unitID\",\r\n     predicate: (r) => r._measurement == \"$measurement\"\r\n     and r.building == \"$building\" and r.kind == \"$kind\" and r.location == \"$location\" and r.room == \"$room\"\r\n     and r.subID == \"${subId}\" ,\r\n    start: -1d\r\n)",
+        "description": null,
+        "error": null,
+        "hide": 0,
+        "includeAll": false,
+        "label": null,
+        "multi": false,
+        "name": "unitId",
+        "options": [],
+        "query": "import \"influxdata/influxdb/v1\"\r\nv1.tagValues(\r\n    bucket: \"sensors_hires\",\r\n    tag: \"unitID\",\r\n     predicate: (r) => r._measurement == \"$measurement\"\r\n     and r.building == \"$building\" and r.kind == \"$kind\" and r.location == \"$location\" and r.room == \"$room\"\r\n     and r.subID == \"${subId}\" ,\r\n    start: -1d\r\n)",
+        "refresh": 1,
+        "regex": "",
+        "skipUrlSync": false,
+        "sort": 0,
+        "tagValuesQuery": "",
+        "tags": [],
+        "tagsQuery": "",
+        "type": "query",
+        "useTags": false
+      }
+    ]
+  },
+  "time": {
+    "from": "now-7d",
+    "to": "now"
+  },
+  "timepicker": {},
+  "timezone": "",
+  "title": "Données des capteurs dans la durée",
+  "uid": "08ANny3Mk",
+  "version": 30
+}
